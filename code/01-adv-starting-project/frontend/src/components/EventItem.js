@@ -1,8 +1,17 @@
-import classes from './EventItem.module.css';
+import { Link, useSubmit } from "react-router-dom";
+import classes from "./EventItem.module.css";
 
 function EventItem({ event }) {
+  const submit = useSubmit();
   function startDeleteHandler() {
-    // ...
+    const proceed = window.confirm("Are you sure ?");
+
+    if (proceed) {
+      const dataObject = null;
+      // submit(dataObject, {method:'delete', action:'/a-different-path'});
+      // HERE it's the same path => no action path needed
+      submit(dataObject, { method: "delete" });
+    }
   }
 
   return (
@@ -12,7 +21,7 @@ function EventItem({ event }) {
       <time>{event.date}</time>
       <p>{event.description}</p>
       <menu className={classes.actions}>
-        <a href="edit">Edit</a>
+        <Link to="edit">Edit</Link>
         <button onClick={startDeleteHandler}>Delete</button>
       </menu>
     </article>
