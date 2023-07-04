@@ -1,10 +1,11 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 
 import CartContext from "./cart-context";
 
 const defaultCartState = {
   items: [],
   totalAmount: 0,
+  isInitial: true,
 };
 
 const cartReducer = (state, action) => {
@@ -32,6 +33,7 @@ const cartReducer = (state, action) => {
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
+      isInitial: false,
     };
   }
 
@@ -53,11 +55,24 @@ const cartReducer = (state, action) => {
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
+      isInitial: false,
     };
   }
 
   if (action.type === "CLEAR") {
+    localStorage.setItem("cartState", JSON.stringify(defaultCartState));
     return defaultCartState;
+  }
+
+  if (action.type === "RESTORE") {
+    const restoredItems = action.storedCart.items;
+    const restoredTotalAmount = action.storedCart.totalAmount;
+
+    return {
+      items: restoredItems,
+      totalAmount: restoredTotalAmount,
+      isInitial: false,
+    };
   }
 
   return defaultCartState;
@@ -68,6 +83,19 @@ const CartProvider = (props) => {
     cartReducer,
     defaultCartState
   );
+
+  useEffect(() => {
+    if (!cartState.isInitial) {
+      localStorage.setItem("cartState", JSON.stringify(cartState));
+    } else {
+      const restoredState = JSON.parse(localStorage.getItem("cartState"));
+      restoreCartHandler(restoredState);
+    }
+  }, [cartState]);
+
+  const restoreCartHandler = (storedCart) => {
+    dispatchCartAction({ type: "RESTORE", storedCart: storedCart });
+  };
 
   const addItemToCartHandler = (item) => {
     dispatchCartAction({ type: "ADD", item: item });
@@ -87,6 +115,7 @@ const CartProvider = (props) => {
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
     clearCart: clearCartHandler,
+    restoreCart: restoreCartHandler,
   };
 
   return (
