@@ -14,7 +14,7 @@ router.get("/", async (req, res, next) => {
     const events = await getAll();
     // setTimeout(() => {
     //   res.json({ events: events });
-    // }, 1500);
+    // }, 2000);
     res.json({ events: events });
   } catch (error) {
     next(error);
@@ -24,6 +24,9 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const event = await get(req.params.id);
+    // setTimeout(() => {
+    //   res.json({ event: event });
+    // }, 2000);
     res.json({ event: event });
   } catch (error) {
     next(error);
@@ -60,6 +63,9 @@ router.post("/", async (req, res, next) => {
 
   try {
     await add(data);
+    // setTimeout(() => {
+    //   res.status(201).json({ message: "Event saved.", event: data });
+    // }, 1500);
     res.status(201).json({ message: "Event saved.", event: data });
   } catch (error) {
     next(error);
