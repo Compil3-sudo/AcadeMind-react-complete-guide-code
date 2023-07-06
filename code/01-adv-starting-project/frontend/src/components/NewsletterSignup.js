@@ -17,7 +17,11 @@ function NewsletterSignup() {
     //  but not initialize a route transition
     // => USE when you want to trigger action without navigating
     //  to the loader or actions' page
-    <fetcher.Form method="post" className={classes.newsletter}>
+    <fetcher.Form
+      method="post"
+      action="/newsletter"
+      className={classes.newsletter}
+    >
       <input
         type="email"
         placeholder="Sign up for newsletter..."
