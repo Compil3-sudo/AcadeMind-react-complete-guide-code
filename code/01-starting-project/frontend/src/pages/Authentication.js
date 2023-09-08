@@ -23,7 +23,7 @@ export async function action({ request }) {
   };
 
   const response = await fetch(
-    "https://reactposter-backend.onrender.com/" + mode,
+    "https://react-mp-events-auth-backend.onrender.com/" + mode,
     {
       method: "POST",
       headers: {

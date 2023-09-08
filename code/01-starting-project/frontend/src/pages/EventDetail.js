@@ -34,7 +34,7 @@ export default EventDetailPage;
 
 async function loadEvent(id) {
   const response = await fetch(
-    "https://reactposter-backend.onrender.com/events/" + id
+    "https://react-mp-events-auth-backend.onrender.com/events/" + id
   );
 
   if (!response.ok) {
@@ -52,7 +52,7 @@ async function loadEvent(id) {
 
 async function loadEvents() {
   const response = await fetch(
-    "https://reactposter-backend.onrender.com/events"
+    "https://react-mp-events-auth-backend.onrender.com/events"
   );
 
   if (!response.ok) {
@@ -87,7 +87,7 @@ export async function action({ params, request }) {
   const token = getAuthToken();
 
   const response = await fetch(
-    "https://reactposter-backend.onrender.com/events/" + eventId,
+    "https://react-mp-events-auth-backend.onrender.com/events/" + eventId,
     {
       method: request.method,
       headers: {

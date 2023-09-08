@@ -95,11 +95,11 @@ export async function action({ request, params }) {
     description: data.get("description"),
   };
 
-  let url = "https://reactposter-backend.onrender.com/events";
+  let url = "https://react-mp-events-auth-backend.onrender.com/events";
 
   if (method === "PATCH") {
     const eventId = params.eventId;
-    url = "https://reactposter-backend.onrender.com/events/" + eventId;
+    url = "https://react-mp-events-auth-backend.onrender.com/events/" + eventId;
   }
 
   const token = getAuthToken();

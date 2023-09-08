@@ -19,7 +19,7 @@ export default EventsPage;
 
 async function loadEvents() {
   const response = await fetch(
-    "https://reactposter-backend.onrender.com/events"
+    "https://react-mp-events-auth-backend.onrender.com/events"
   );
 
   if (!response.ok) {
