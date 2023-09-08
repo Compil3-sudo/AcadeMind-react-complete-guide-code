@@ -24,4 +24,4 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message });
 });
 
-app.listen("https://react-mp-events-auth.onrender.com/");
+app.listen(8080);
