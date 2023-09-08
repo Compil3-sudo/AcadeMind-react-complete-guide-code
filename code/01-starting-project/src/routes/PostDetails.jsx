@@ -34,7 +34,9 @@ function PostDetails() {
 export default PostDetails;
 
 export async function loader({ params }) {
-  const response = await fetch("http://localhost:8080/posts/" + params.id);
+  const response = await fetch(
+    "https://reactposter-backend.onrender.com/posts/" + params.id
+  );
   const resData = await response.json();
 
   return resData.post;

@@ -32,11 +32,14 @@ export async function action(data) {
 
   const postData = Object.fromEntries(formData);
 
-  const response = await fetch("http://localhost:8080/posts", {
-    method: "POST",
-    body: JSON.stringify(postData),
-    headers: { "Content-Type": "application/json" },
-  });
+  const response = await fetch(
+    "https://reactposter-backend.onrender.com/posts",
+    {
+      method: "POST",
+      body: JSON.stringify(postData),
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 
   if (!response.ok) {
     console.log("Error");
