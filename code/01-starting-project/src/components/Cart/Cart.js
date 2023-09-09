@@ -5,11 +5,13 @@ import CartItem from "./CartItem";
 import classes from "./Cart.module.css";
 import CartContext from "../../store/cart-context";
 import Checkout from "./Checkout";
+import Alert from "@mui/material/Alert";
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);
+  const [displayWarning, setDisplayWarning] = useState(true);
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -20,7 +22,12 @@ const Cart = (props) => {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem(item);
+    if (item.amount === 10) {
+      setDisplayWarning(false);
+      return;
+    } else {
+      cartCtx.addSingleItem(item);
+    }
   };
 
   const orderHandler = () => {
@@ -94,7 +101,7 @@ const Cart = (props) => {
 
   const didSubmitModalContent = (
     <>
-      <p>Successfully sent the order!</p>
+      <p>Successfully sent the order to Firebase DB!</p>
       <div className={classes.actions}>
         <button className={classes} onClick={props.onClose}>
           Close
@@ -105,6 +112,12 @@ const Cart = (props) => {
 
   return (
     <Modal onClose={props.onClose}>
+      {!displayWarning && (
+        <Alert severity="warning" onClose={() => setDisplayWarning(true)}>
+          This prevents you from adding infinite items. It can also prevent you
+          from adding items if they are out of stock.
+        </Alert>
+      )}
       {!isSubmitting && !didSubmit && cartModalContet}
       {isSubmitting && isSubmittingModalContent}
       {!isSubmitting && didSubmit && didSubmitModalContent}

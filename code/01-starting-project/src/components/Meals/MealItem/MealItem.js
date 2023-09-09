@@ -1,20 +1,31 @@
-import { useContext } from 'react';
+import { useContext, useState } from "react";
 
-import MealItemForm from './MealItemForm';
-import classes from './MealItem.module.css';
-import CartContext from '../../../store/cart-context';
+import MealItemForm from "./MealItemForm";
+import classes from "./MealItem.module.css";
+import CartContext from "../../../store/cart-context";
+import { Alert } from "@mui/material";
 
 const MealItem = (props) => {
   const cartCtx = useContext(CartContext);
+  const [displayWarning, setDisplayWarning] = useState(false);
 
   const price = `$${props.price.toFixed(2)}`;
 
-  const addToCartHandler = amount => {
+  const addToCartHandler = (amount) => {
+    // check if item.amount out of stock. Stock = 10 just as example
+    const items = cartCtx.items;
+    const itemToAdd = items.find((x) => x.id === props.id);
+
+    if (items.includes(itemToAdd) && itemToAdd.amount + amount > 10) {
+      setDisplayWarning(true);
+      return;
+    }
+
     cartCtx.addItem({
       id: props.id,
       name: props.name,
       amount: amount,
-      price: props.price
+      price: props.price,
     });
   };
 
@@ -25,6 +36,14 @@ const MealItem = (props) => {
         <div className={classes.description}>{props.description}</div>
         <div className={classes.price}>{price}</div>
       </div>
+
+      {displayWarning && (
+        <Alert severity="warning" onClose={() => setDisplayWarning(false)}>
+          This prevents you from adding infinite items. It can also prevent you
+          from adding items if they are out of stock.
+        </Alert>
+      )}
+
       <div>
         <MealItemForm onAddToCart={addToCartHandler} />
       </div>
