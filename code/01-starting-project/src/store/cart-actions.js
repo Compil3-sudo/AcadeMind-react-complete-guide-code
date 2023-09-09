@@ -74,15 +74,13 @@ export const sendCartData = (cart) => {
         })
       );
     } catch (error) {
-      sendCartData().catch((error) => {
-        dispatch(
-          uiActions.showNotification({
-            status: "error",
-            title: "Error!",
-            message: "Sending cart data failed.",
-          })
-        );
-      });
+      dispatch(
+        uiActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Sending cart data failed.",
+        })
+      );
     }
   };
 };
