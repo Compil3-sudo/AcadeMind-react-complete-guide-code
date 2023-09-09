@@ -42,7 +42,9 @@ const cartReducer = (state, action) => {
       (item) => item.id === action.id
     );
     const existingItem = state.items[existingCartItemIndex];
-    const updatedTotalAmount = state.totalAmount - existingItem.price;
+    const updatedTotalAmount = Math.round(
+      state.totalAmount - existingItem.price
+    );
     let updatedItems;
     if (existingItem.amount === 1) {
       updatedItems = state.items.filter((item) => item.id !== action.id);
@@ -89,6 +91,12 @@ const CartProvider = (props) => {
       localStorage.setItem("cartState", JSON.stringify(cartState));
     } else {
       const restoredState = JSON.parse(localStorage.getItem("cartState"));
+
+      // the carState was never saved into localStorage => create default localStorage entry
+      if (!restoredState) {
+        localStorage.setItem("cartState", JSON.stringify(cartState));
+      }
+
       restoreCartHandler(restoredState);
     }
   }, [cartState]);
