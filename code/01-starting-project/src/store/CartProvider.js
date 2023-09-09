@@ -116,11 +116,12 @@ const CartProvider = (props) => {
     if (!cartState.isInitial) {
       localStorage.setItem("cartState", JSON.stringify(cartState));
     } else {
-      const restoredState = JSON.parse(localStorage.getItem("cartState"));
+      let restoredState = JSON.parse(localStorage.getItem("cartState"));
 
       // the carState was never saved into localStorage => create default localStorage entry
       if (!restoredState) {
-        localStorage.setItem("cartState", JSON.stringify(cartState));
+        localStorage.setItem("cartState", JSON.stringify(defaultCartState));
+        restoredState = defaultCartState;
       }
 
       restoreCartHandler(restoredState);
