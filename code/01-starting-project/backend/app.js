@@ -16,11 +16,6 @@ app.use((req, res, next) => {
 
 app.use(authRoutes);
 
-// Catch-all route to render your React app on the server
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 app.use("/events", eventRoutes);
 
 app.use((error, req, res, next) => {
