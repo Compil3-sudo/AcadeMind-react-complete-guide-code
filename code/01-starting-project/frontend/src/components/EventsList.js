@@ -10,7 +10,7 @@ function EventsList({events}) {
     <div className={classes.events}>
       <h1>All Events</h1>
       <ul className={classes.list}>
-        {events.map((event) => (
+        {events.length > 0 ? events.map((event) => (
           <li key={event.id} className={classes.item}>
             <Link to={`/events/${event.id}`}>
               <img src={event.image} alt={event.title} />
@@ -20,7 +20,9 @@ function EventsList({events}) {
               </div>
             </Link>
           </li>
-        ))}
+        )) : 
+          <h2>There are currently no events. You can create an account and make new events.</h2>
+          }
       </ul>
     </div>
   );
